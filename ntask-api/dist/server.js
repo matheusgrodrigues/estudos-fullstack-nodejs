@@ -30,10 +30,28 @@ exports.Router = void 0;
 const express_1 = __importStar(require("express"));
 Object.defineProperty(exports, "Router", { enumerable: true, get: function () { return express_1.Router; } });
 const app_1 = __importDefault(require("./app"));
+const database_1 = __importDefault(require("./core/database"));
+const Task_1 = __importDefault(require("./model/Task"));
+const User_1 = __importDefault(require("./model/User"));
+const setupTableRelation = () => {
+    Task_1.default.belongsTo(User_1.default);
+    User_1.default.hasMany(Task_1.default);
+};
+const syncDatabase = () => database_1.default
+    .sync({ alter: true })
+    .then(() => console.log("Banco de dados foi sincronizado."))
+    .catch((err) => console.error("Erro ao sincronizar o banco de dados."));
+const setupDatabase = () => {
+    setupTableRelation();
+    syncDatabase();
+};
 const app = (0, express_1.default)();
 const port = 3000;
 app.set("json spaces", 4);
 app.set("port", port);
 app.use(app_1.default);
-app.listen(port, () => console.log(`NTask API - porta ${port}`));
+setupDatabase();
+app.listen(port, () => {
+    console.log(`NTask API - porta ${port}`);
+});
 exports.default = app;

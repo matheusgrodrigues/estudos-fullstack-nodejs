@@ -12,8 +12,30 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const data_1 = __importDefault(require("../data/data"));
+const sequelize_1 = require("sequelize");
+const data_1 = __importDefault(require("../core/data"));
+const database_1 = __importDefault(require("../core/database"));
 const taskModel = {
     findAll: (params) => __awaiter(void 0, void 0, void 0, function* () { return data_1.default.tasks; }),
 };
+const Tasks = database_1.default.define("tasks", {
+    id: {
+        type: sequelize_1.DataTypes.INTEGER,
+        primaryKey: true,
+        autoIncrement: true,
+    },
+    title: {
+        type: sequelize_1.DataTypes.STRING,
+        allowNull: false,
+        validate: {
+            notEmpty: true,
+        },
+    },
+    done: {
+        type: sequelize_1.DataTypes.BOOLEAN,
+        allowNull: false,
+        defaultValue: false,
+    },
+});
+Tasks.belongsTo(database_1.default.models.Users);
 exports.default = taskModel;

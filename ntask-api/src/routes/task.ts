@@ -1,10 +1,10 @@
 import { Request, Response } from "express";
-import taskModel from "../model/task";
+import TaskService from "../services/TaskService";
 
 const taskRouter = {
-   get: async (req: Request, res: Response) => {
-      const tasks = await taskModel.findAll({});
-      res.json(tasks);
+   getAll: async (req: Request, res: Response) => {
+      const tasks = await TaskService.getAll();
+      res.json({ tasks });
    },
 };
 

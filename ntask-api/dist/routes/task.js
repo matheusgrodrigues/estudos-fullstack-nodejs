@@ -12,11 +12,11 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const task_1 = __importDefault(require("../model/task"));
+const TaskService_1 = __importDefault(require("../services/TaskService"));
 const taskRouter = {
-    get: (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-        const tasks = yield task_1.default.findAll({});
-        res.json(tasks);
+    getAll: (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+        const tasks = yield TaskService_1.default.getAll();
+        res.json({ tasks });
     }),
 };
 exports.default = taskRouter;
