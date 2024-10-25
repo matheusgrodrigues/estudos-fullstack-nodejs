@@ -1,10 +1,14 @@
-import { Sequelize, DataTypes, Model } from "sequelize";
+require("dotenv").config();
 
-import config from "../config/database";
+import { Sequelize, DataTypes, Model, Dialect } from "sequelize";
 
-const { database, username, password, params } = config;
-
-const sequelize = new Sequelize(database, username, password, params);
+const sequelize = new Sequelize(process.env.DB_NAME!, process.env.DB_USERNAME!, process.env.DB_PASSWORD, {
+   dialect: process.env.DB_DIALECT as Dialect,
+   storage: process.env.DB_STORAGE,
+   define: {
+      underscored: true,
+   },
+});
 
 export { DataTypes, Model };
 

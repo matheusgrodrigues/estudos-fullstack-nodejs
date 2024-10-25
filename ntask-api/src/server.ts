@@ -2,8 +2,8 @@ import express, { Router } from "express";
 import router from "./app";
 
 import sequelize from "./core/database";
-import Tasks from "./migration/Task";
-import Users from "./migration/User";
+import Tasks from "./model/Task";
+import Users from "./model/User";
 
 const setupTableRelation = () => {
    Tasks.belongsTo(Users);

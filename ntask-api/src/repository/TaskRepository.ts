@@ -1,6 +1,6 @@
 import { Model } from "../core/database";
-import TaskSchema from "../schema/TaskSchema";
 import Tasks from "../model/Task";
+import TaskSchema from "../schema/TaskSchema";
 
 const TaskRepository = {
    findAll: async (params: object): Promise<Model<TaskSchema>[]> => {
