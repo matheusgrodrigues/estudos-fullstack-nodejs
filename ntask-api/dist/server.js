@@ -49,7 +49,12 @@ const app = (0, express_1.default)();
 const port = 3000;
 app.set("json spaces", 4);
 app.set("port", port);
+app.use(express_1.default.json());
 app.use(app_1.default);
+app.use((req, res, next) => {
+    req.body && delete req.body.id;
+    next();
+});
 setupDatabase();
 app.listen(port, () => {
     console.log(`NTask API - porta ${port}`);

@@ -14,9 +14,12 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const TaskRepository_1 = __importDefault(require("../repository/TaskRepository"));
 const TaskService = {
-    getAll: () => __awaiter(void 0, void 0, void 0, function* () {
+    findAll: () => __awaiter(void 0, void 0, void 0, function* () {
         const tasks = yield TaskRepository_1.default.findAll({});
         return tasks;
+    }),
+    findOne: (query) => __awaiter(void 0, void 0, void 0, function* () {
+        const task = yield TaskRepository_1.default.findOne({ id: 1 });
     }),
 };
 exports.default = TaskService;

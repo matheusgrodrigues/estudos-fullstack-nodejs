@@ -12,11 +12,56 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const TaskService_1 = __importDefault(require("../services/TaskService"));
+const Task_1 = __importDefault(require("../model/Task"));
+const errorResponse = (error, res) => {
+    const { message } = error;
+    res.status(402).json({ message });
+};
 const taskRouter = {
-    getAll: (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-        const tasks = yield TaskService_1.default.getAll();
-        res.json({ tasks });
+    findAll: (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+        try {
+            const result = yield Task_1.default.findAll();
+            res.json({ tasks: result }).status(200);
+        }
+        catch (error) {
+            errorResponse(error, res);
+        }
+    }),
+    findOne: (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+        try {
+            const result = yield Task_1.default.findOne({ where: req.params });
+            result !== undefined ? res.json(result) : res.sendStatus(404);
+        }
+        catch (error) {
+            errorResponse(error, res);
+        }
+    }),
+    create: (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+        try {
+            const result = yield Task_1.default.create(req.body);
+            res.json(result);
+        }
+        catch (error) {
+            errorResponse(error, res);
+        }
+    }),
+    update: (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+        try {
+            yield Task_1.default.update(req.body, { where: req.params });
+            res.sendStatus(204);
+        }
+        catch (error) {
+            errorResponse(error, res);
+        }
+    }),
+    delete: (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+        try {
+            yield Task_1.default.destroy({ where: req.params });
+            res.sendStatus(204);
+        }
+        catch (error) {
+            errorResponse(error, res);
+        }
     }),
 };
 exports.default = taskRouter;

@@ -18,5 +18,9 @@ const TaskRepository = {
         const tasks = yield Task_1.default.findAll();
         return tasks;
     }),
+    findOne: (params) => __awaiter(void 0, void 0, void 0, function* () {
+        const task = yield Task_1.default.findOne({ where: Object.assign({}, params) });
+        return task;
+    }),
 };
 exports.default = TaskRepository;

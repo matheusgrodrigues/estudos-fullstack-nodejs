@@ -1,7 +1,7 @@
-import express, { Router } from "express";
+import express, { Router, Request, Response } from "express";
 import router from "./app";
 
-import sequelize from "./core/database";
+import sequelize, { Model } from "./core/database";
 import Tasks from "./model/Task";
 import Users from "./model/User";
 
@@ -27,7 +27,12 @@ const port = 3000;
 app.set("json spaces", 4);
 app.set("port", port);
 
+app.use(express.json());
 app.use(router);
+app.use((req, res, next) => {
+   req.body && delete req.body.id;
+   next();
+});
 
 setupDatabase();
 
@@ -35,6 +40,6 @@ app.listen(port, () => {
    console.log(`NTask API - porta ${port}`);
 });
 
-export { Router };
+export { Router, Request, Response, Model };
 
 export default app;

@@ -7,6 +7,13 @@ router.get("/", async (req, res) => {
    res.json({ tasks: "NTask API" });
 });
 
-router.get("/tasks", taskRouter.getAll);
+router.route("/tasks").get(taskRouter.findAll);
+
+router
+   .route("/tasks/:id")
+   .delete(taskRouter.delete)
+   .post(taskRouter.create)
+   .get(taskRouter.findOne)
+   .put(taskRouter.update);
 
 export default router;

@@ -18,5 +18,11 @@ const router = (0, server_1.Router)();
 router.get("/", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     res.json({ tasks: "NTask API" });
 }));
-router.get("/tasks", task_1.default.getAll);
+router.route("/tasks").get(task_1.default.findAll);
+router
+    .route("/tasks/:id")
+    .delete(task_1.default.delete)
+    .post(task_1.default.create)
+    .get(task_1.default.findOne)
+    .put(task_1.default.update);
 exports.default = router;
