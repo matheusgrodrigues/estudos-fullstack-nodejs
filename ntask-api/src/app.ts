@@ -1,6 +1,10 @@
 import { Router } from "./server";
 import taskRouter from "./routes/task";
 import userRouter from "./routes/users";
+import User from "./model/User";
+import auth from "./auth";
+import jwt from "jwt-simple";
+import { config } from "./core/database";
 
 const router = Router();
 
@@ -8,12 +12,39 @@ router.get("/", async (req, res) => {
    res.json({ tasks: "NTask API" });
 });
 
-router.route("/tasks").get(taskRouter.findAll).post(taskRouter.create);
-router.route("/tasks/:id").delete(taskRouter.delete).get(taskRouter.findOne).put(taskRouter.update);
+router.route("/tasks").all(auth.authenticate()).get(taskRouter.findAll).post(taskRouter.create);
+router
+   .route("/tasks/:id")
+   .all(auth.authenticate())
+   .delete(taskRouter.delete)
+   .get(taskRouter.findOne)
+   .put(taskRouter.update);
 
 router.get("/users/:id", userRouter.findByID);
 router.delete("/users/:id", userRouter.delete);
 router.post("/users", userRouter.create);
 router.put("/users/:id", userRouter.update);
+
+router.post("/token", async (req, res) => {
+   if (req.body.email && req.body.password) {
+      try {
+         const user = await User.findOne({ where: { email: req.body.email } });
+
+         const isValidPassword = user && auth.isPassword(user.password, req.body.password);
+
+         if (isValidPassword) {
+            const payload = { id: user.id };
+
+            res.json({
+               token: jwt.encode(payload, config.jwtSecret!),
+            });
+         } else {
+            res.sendStatus(401);
+         }
+      } catch (error) {
+         res.sendStatus(401);
+      }
+   }
+});
 
 export default router;

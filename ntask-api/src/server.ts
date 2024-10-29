@@ -4,6 +4,7 @@ import router from "./app";
 import sequelize, { Model } from "./core/database";
 import Tasks from "./model/Task";
 import Users from "./model/User";
+import auth from "./auth";
 
 const setupTableRelation = () => {
    Tasks.belongsTo(Users);
@@ -26,8 +27,8 @@ const port = 3000;
 
 app.set("json spaces", 4);
 app.set("port", port);
-
 app.use(express.json());
+app.use(auth.initialize());
 app.use(router);
 app.use((req, res, next) => {
    req.body && delete req.body.id;

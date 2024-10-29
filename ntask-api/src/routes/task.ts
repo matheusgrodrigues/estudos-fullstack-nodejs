@@ -14,6 +14,7 @@ interface TaskRouterProps {
    delete: (req: Request, res: Response) => Promise<void>;
 }
 
+// TODO: validar para pegar os dados do usuario autenticado -> PG 90
 const taskRouter: TaskRouterProps = {
    findAll: async (req, res) => {
       try {
