@@ -18,6 +18,14 @@ const Tasks = sequelize.define("Tasks", {
       allowNull: false,
       defaultValue: false,
    },
+   user_id: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      references: {
+         model: "User",
+         key: "id",
+      },
+   },
 });
 
 export default Tasks;

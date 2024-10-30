@@ -13,6 +13,7 @@ router.get("/", async (req, res) => {
 });
 
 router.route("/tasks").all(auth.authenticate()).get(taskRouter.findAll).post(taskRouter.create);
+
 router
    .route("/tasks/:id")
    .all(auth.authenticate())
@@ -20,17 +21,21 @@ router
    .get(taskRouter.findOne)
    .put(taskRouter.update);
 
-router.get("/users/:id", userRouter.findByID);
-router.delete("/users/:id", userRouter.delete);
+router
+   .route("/user")
+   .all(auth.authenticate())
+   .get(userRouter.findByID)
+   .delete(userRouter.delete)
+   .put(userRouter.update);
+
 router.post("/users", userRouter.create);
-router.put("/users/:id", userRouter.update);
 
 router.post("/token", async (req, res) => {
    if (req.body.email && req.body.password) {
       try {
          const user = await User.findOne({ where: { email: req.body.email } });
 
-         const isValidPassword = user && auth.isPassword(user.password, req.body.password);
+         const isValidPassword = user && auth.isPassword(req.body.password, user.password);
 
          if (isValidPassword) {
             const payload = { id: user.id };

@@ -7,8 +7,8 @@ import Users from "./model/User";
 import auth from "./auth";
 
 const setupTableRelation = () => {
-   Tasks.belongsTo(Users);
-   Users.hasMany(Tasks);
+   Tasks.belongsTo(Users, { foreignKey: "user_id" });
+   Users.hasMany(Tasks, { foreignKey: "user_id" });
 };
 
 const syncDatabase = () =>

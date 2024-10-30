@@ -14,25 +14,38 @@ interface TaskRouterProps {
    delete: (req: Request, res: Response) => Promise<void>;
 }
 
-// TODO: validar para pegar os dados do usuario autenticado -> PG 90
 const taskRouter: TaskRouterProps = {
    findAll: async (req, res) => {
+      const user = req.user as { id: number } & typeof req.user;
+
       try {
-         const result = await Tasks.findAll();
+         const result = await Tasks.findAll({ where: { user_id: user.id } });
+
          res.json({ tasks: result }).status(200);
       } catch (error) {
          errorResponse(error, res);
       }
    },
    findOne: async (req, res) => {
+      const user = req.user as { id: number } & typeof req.user;
+
       try {
-         const result = await Tasks.findOne({ where: req.params });
+         const result = await Tasks.findOne({
+            where: {
+               id: req.params.id,
+               user_id: user.id,
+            },
+         });
          result !== undefined ? res.json(result) : res.sendStatus(404);
       } catch (error) {
          errorResponse(error, res);
       }
    },
    create: async (req, res) => {
+      const user = req.user as { id: number } & typeof req.user;
+
+      req.body.user_id = user.id;
+
       try {
          const result = await Tasks.create(req.body);
          res.json(result);
@@ -41,16 +54,25 @@ const taskRouter: TaskRouterProps = {
       }
    },
    update: async (req, res) => {
+      const user = req.user as { id: number } & typeof req.user;
+
       try {
-         await Tasks.update(req.body, { where: req.params });
+         await Tasks.update(req.body, {
+            where: {
+               id: req.params.id,
+               user_id: user.id,
+            },
+         });
          res.sendStatus(204);
       } catch (error) {
          errorResponse(error, res);
       }
    },
    delete: async (req, res) => {
+      const user = req.user as { id: number } & typeof req.user;
+
       try {
-         await Tasks.destroy({ where: req.params });
+         await Tasks.destroy({ where: { id: req.params.id, user_id: user.id } });
          res.sendStatus(204);
       } catch (error) {
          errorResponse(error, res);
