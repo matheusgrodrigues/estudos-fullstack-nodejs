@@ -3,7 +3,6 @@
    "version": "1.0.0",
    "description": "Leitura do livro Construindo APIs Rest com Node.js",
    "main": "index.js",
-   "type": "module",
    "scripts": {
       "start": "dotenv --file=.env.development tsc && node dist/server.js",
       "test": "dotenv --env-file=.env.test mocha test/**/*.js"
