@@ -1,4 +1,4 @@
-import sequelize, { DataTypes } from "../core/database";
+import sequelize, { DataTypes } from "../db/config";
 
 const Tasks = sequelize.define("Tasks", {
    id: {

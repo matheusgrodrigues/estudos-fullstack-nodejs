@@ -2,7 +2,7 @@ import passport from "passport";
 import { Strategy, ExtractJwt } from "passport-jwt";
 import bcrypt from "bcrypt";
 
-import { config } from "./core/database";
+import { config } from "./db/config";
 import Users from "./model/User";
 
 const auth = {

@@ -1,7 +1,7 @@
 import express, { Router, Request, Response } from "express";
 import router from "./app";
 
-import sequelize, { Model } from "./core/database";
+import sequelize, { Model } from "./db/config";
 import Tasks from "./model/Task";
 import Users from "./model/User";
 import auth from "./auth";
@@ -36,6 +36,8 @@ app.use((req, res, next) => {
 });
 
 setupDatabase();
+
+// TODO: instalar o chai e o supertest
 
 app.listen(port, () => {
    console.log(`NTask API - porta ${port}`);

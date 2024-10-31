@@ -1,4 +1,4 @@
-import sequelize, { DataTypes, Model, Optional } from "../core/database";
+import sequelize, { DataTypes, Model, Optional } from "../db/config";
 import UserSchema from "../schema/UserSchema";
 import bcrypt from "bcrypt";
 

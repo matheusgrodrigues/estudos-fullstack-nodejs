@@ -4,7 +4,8 @@ import userRouter from "./routes/users";
 import User from "./model/User";
 import auth from "./auth";
 import jwt from "jwt-simple";
-import { config } from "./core/database";
+
+import { config } from "./db/config";
 
 const router = Router();
 

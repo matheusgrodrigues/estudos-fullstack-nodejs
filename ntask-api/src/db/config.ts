@@ -21,6 +21,7 @@ const { name, username, password, define } = config.database;
 const sequelize = new Sequelize(name!, username!, password, {
    dialect: process.env.DB_DIALECT as Dialect,
    storage: process.env.DB_STORAGE,
+   logging: Boolean(process.env.DB_LOGGING),
    define: {
       underscored: define.underscored,
    },
