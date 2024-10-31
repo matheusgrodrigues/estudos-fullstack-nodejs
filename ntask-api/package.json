@@ -4,7 +4,8 @@
    "description": "Leitura do livro Construindo APIs Rest com Node.js",
    "main": "index.js",
    "scripts": {
-      "start": "dotenv --file=.env.development tsc && node dist/server.js",
+      "build": "dotenv --file=.env.production tsc",
+      "dev": "dotenv --file=.env.development tsc && node dist/server.js",
       "test": "dotenv --env-file=.env.test mocha test/**/*.js"
    },
    "author": "Matheus Gomes",
@@ -31,8 +32,6 @@
       "passport": "^0.7.0",
       "passport-jwt": "^4.0.1",
       "supertest": "^7.0.0",
-      "ts-node": "^10.9.2",
-      "tsconfig-paths": "^4.2.0",
       "typescript": "^5.6.3"
    }
 }
