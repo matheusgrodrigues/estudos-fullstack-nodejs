@@ -1,6 +1,7 @@
 require("dotenv").config();
 
 import { Sequelize, DataTypes, Model, Dialect, Optional } from "sequelize";
+import logger from "../lib/logs";
 
 export const config = {
    database: {
@@ -21,7 +22,9 @@ const { name, username, password, define } = config.database;
 const sequelize = new Sequelize(name!, username!, password, {
    dialect: process.env.DB_DIALECT as Dialect,
    storage: process.env.DB_STORAGE,
-   logging: Boolean(process.env.DB_LOGGING),
+   logging: (sql) => {
+      logger.info(`${new Date()} ${sql}`);
+   },
    define: {
       underscored: define.underscored,
    },

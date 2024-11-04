@@ -5,6 +5,10 @@ import sequelize, { Model } from "./db/config";
 import Tasks from "./model/Task";
 import Users from "./model/User";
 import auth from "./auth";
+import cors from "cors";
+
+import morgan from "morgan";
+import logger from "./lib/logs";
 
 const setupTableRelation = () => {
    Tasks.belongsTo(Users, { foreignKey: "user_id" });
@@ -27,6 +31,22 @@ const port = 3000;
 
 app.set("json spaces", 4);
 app.set("port", port);
+app.use(
+   morgan("common", {
+      stream: {
+         write: (message) => {
+            logger.info(message);
+         },
+      },
+   })
+);
+app.use(
+   cors({
+      origin: ["http://localhost:3001"],
+      methods: ["GET", "POST", "PUT", "DELETE"],
+      allowedHeaders: ["Content-Type", "Authorization"],
+   })
+);
 app.use(express.json());
 app.use(auth.initialize());
 app.use(router);
