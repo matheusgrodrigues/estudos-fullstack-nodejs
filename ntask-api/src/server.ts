@@ -9,6 +9,7 @@ import cors from "cors";
 
 import morgan from "morgan";
 import logger from "./lib/logs";
+import helmet from "helmet";
 
 const setupTableRelation = () => {
    Tasks.belongsTo(Users, { foreignKey: "user_id" });
@@ -40,6 +41,7 @@ app.use(
       },
    })
 );
+app.use(helmet());
 app.use(
    cors({
       origin: ["http://localhost:3001"],
