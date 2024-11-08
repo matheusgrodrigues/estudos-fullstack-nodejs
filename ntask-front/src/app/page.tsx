@@ -1,29 +1,31 @@
-"use client";
+import { redirect } from "next/navigation";
+import { getSession, login, logout } from "./action";
 
-import { useActionState } from "react";
-
-import { login } from "./action";
-
-export default function Home() {
-   const [state, formAction, isPending] = useActionState(login, undefined);
-
-   console.log(state);
-
+export default async function Page() {
+   const session = await getSession();
    return (
-      <div>
-         <h1>Login</h1>
-
-         <form action={formAction}>
-            <input type="text" name="email" />
-            <p>{state?.errors?.email}</p>
-
-            <input type="password" name="senha" />
-
-            <p>{state?.message}</p>
-            <button type="submit" disabled={isPending} className={`${isPending ? "opacity-50" : ""}`}>
-               Entrar
-            </button>
+      <section>
+         <form
+            action={async (formData) => {
+               "use server";
+               await login(formData);
+               redirect("/");
+            }}
+         >
+            <input type="email" placeholder="Email" name="email" />
+            <br />
+            <button type="submit">Login</button>
          </form>
-      </div>
+         <form
+            action={async () => {
+               "use server";
+               await logout();
+               redirect("/");
+            }}
+         >
+            <button type="submit">Logout</button>
+         </form>
+         <pre>{JSON.stringify(session, null, 2)}</pre>
+      </section>
    );
 }
