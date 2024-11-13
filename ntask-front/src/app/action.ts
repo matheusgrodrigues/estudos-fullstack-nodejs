@@ -10,7 +10,7 @@ interface User {
    name: string;
 }
 
-interface SessionPayload extends JWTPayload {
+export interface SessionPayload extends JWTPayload {
    user: User;
    expires: Date;
 }
